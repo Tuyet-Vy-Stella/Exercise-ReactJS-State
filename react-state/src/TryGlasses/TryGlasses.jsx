@@ -1,15 +1,42 @@
 import React, { Component } from "react";
-import dataGlasses from '../Data/dataGlasses.json';
+import dataGlasses from "../Data/dataGlasses.json";
 
 export default class TryGlasses extends Component {
+  state = {
+    currentGlasses: {
+      id: 1,
+      price: 30,
+      name: "GUCCI G8850U",
+      url: "./glassesImage/v1.png",
+      desc: "Light pink square lenses define these sunglasses, ending with amother of pearl effect tip. "
+    },
+  };
 
-    renderGlassesList = () => {
-        return dataGlasses.map((glassesItem, index) => {
-            return <img style={{width:'15%', marginRight:'14px', border:'solid 1px', marginBottom:'30px', cursor:'pointer'}} key={index} src={glassesItem.url}></img>
-        })
-        
-    }
+  renderGlassesList = () => {
+    return dataGlasses.map((glassesItem, index) => {
+      return (
+        <img onClick={() => {
+            this.glassesChange(glassesItem)
+        }}
+          style={{
+            width: "15%",
+            marginRight: "14px",
+            border: "solid 1px",
+            marginBottom: "30px",
+            cursor: "pointer",
+          }}
+          key={index}
+          src={glassesItem.url}
+        ></img>
+      );
+    });
+  };
 
+  glassesChange = (newGlasses) => {
+    this.setState({
+        currentGlasses: newGlasses
+    })
+  }
 
   render() {
     const glassesStyle = {
@@ -47,6 +74,7 @@ export default class TryGlasses extends Component {
           </h3>
           <div className="container">
             <div className="row mt-5">
+                {/* Left model */}
               <div className="col-6">
                 <div className="item position-relative">
                   <img
@@ -58,15 +86,21 @@ export default class TryGlasses extends Component {
                   <img
                     style={glassesStyle}
                     className="position-absolute"
-                    src="./glassesImage/v1.png"
+                    src={this.state.currentGlasses.url}
                     alt="..."
                   />
-                  <div style={glassesInfo} className="glasses-info position-relative">
-                    <p style={{color:'#6A5ACD'}} className="fw-bold fs-4">Name</p>
-                    <p className="fs-6 text-white">Details</p>
+                  <div
+                    style={glassesInfo}
+                    className="glasses-info position-relative"
+                  >
+                    <p style={{ color: "#6A5ACD" }} className="fw-bold fs-5 mb-0">
+                      {this.state.currentGlasses.name}
+                    </p>
+                    <p className="fs-6 text-white">{this.state.currentGlasses.desc}</p>
                   </div>
                 </div>
               </div>
+              {/* Right model */}
               <div className="col-6">
                 <img
                   style={{ width: "250px" }}
@@ -77,7 +111,7 @@ export default class TryGlasses extends Component {
             </div>
           </div>
           <div className="glasses-item container bg-light d-flex justify-content-space-between mt-5 p-5 flex-wrap">
-                {this.renderGlassesList()}
+            {this.renderGlassesList()}
           </div>
         </div>
       </div>
